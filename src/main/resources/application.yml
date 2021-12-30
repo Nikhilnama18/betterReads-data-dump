@@ -1,4 +1,6 @@
 spring:
+    main:
+        allow-circular-references: true
     data:
         cassandra:
             keyspace-name: main

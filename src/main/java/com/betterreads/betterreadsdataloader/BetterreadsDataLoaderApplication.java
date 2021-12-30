@@ -2,6 +2,12 @@ package com.betterreads.betterreadsdataloader;
 
 import java.nio.file.Path;
 
+import javax.annotation.PostConstruct;
+
+import com.betterreads.betterreadsdataloader.author.Author;
+import com.betterreads.betterreadsdataloader.author.AuthorRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.cassandra.CqlSessionBuilderCustomizer;
@@ -14,8 +20,21 @@ import connection.DataStaxAstraProperties;
 @EnableConfigurationProperties(DataStaxAstraProperties.class)
 public class BetterreadsDataLoaderApplication {
 
+	@Autowired
+	AuthorRepository authorRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(BetterreadsDataLoaderApplication.class, args);
+	}
+
+	@PostConstruct
+	public void start() {
+		// System.out.println("Application Started");
+		Author author = new Author();
+		author.setId("id");
+		author.setName("Nick");
+		author.setPersonalname("personalname");
+		authorRepository.save(author);
 	}
 
 	@Bean
